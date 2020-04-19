@@ -33,14 +33,14 @@ void chatterCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
   float h0 = 231.506675163;*/
 	
 	
-float latitude_init;
+  float latitude_init;
   float longitude_init;
   float h0;
 	
-	
+	//RETRIEVE ZERO POSITION FROM LAUNCH FILE
 	ros::NodeHandle f;
 	f.getParam("/zeroLatitude", latitude_init);
-f.getParam("/zeroLongitude", longitude_init);
+	f.getParam("/zeroLongitude", longitude_init);
 	f.getParam("/zeroAltitude", h0);
 
   //lla to ecef
