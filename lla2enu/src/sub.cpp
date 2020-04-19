@@ -142,9 +142,17 @@ void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_
     {s.stato=-1;
     }
 	  
-    // PUBLISHING TF
-    -->
-    
+    // PUBLISHING TF CAR 
+    // x,y, theta (??)
+    ros::NodeHandle n; 
+    tf::TransformBroadcaster br;
+    tf::Transform transform;
+    transform.setOrigin( tf::Vector3(msg1->x, msg1->y, 0) );
+    tf::Quaternion q;
+    q.setRPY(0, 0, msg1->theta); 
+    transform.setRotation(q);
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "turtle"));
+
     // PUBLISHING THE CUSTOM MESSAGE
     distance_pub.publish(s);
     loop_rate.sleep();
