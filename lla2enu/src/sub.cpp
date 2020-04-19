@@ -99,10 +99,6 @@ f.getParam("/zeroLongitude", longitude_init);
 void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_msgs::Vector3StampedConstPtr& msg2)
 {
   ROS_INFO ("Received two messages: (%f,%f,%f) and (%f,%f,%f)", msg1->vector.x,msg1->vector.y,msg1->vector.z, msg2->vector.x, msg2->vector.y, msg2->vector.z);
-
-	//CONVERTING THE CAR POSITION 
-	//geometry_msgs::Vector3Stamped position_car;
-	//position_car = chatterCallback(msg1);
 	
 	//CONVERTING THE POSITIONS 
 	chatterCallback(msg1);
@@ -116,12 +112,12 @@ void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_
   service::ComputeDistance a;
 	
   //SENDING PARAMETERS TO CALCULATE
-  a.request.car1; 
-  a.request.car2;
-  a.request.car3;
-  a.request.obst1
-  a.request.obst2
-  a.request.obst3
+  a.request.car1 = msg1->latitude; 
+  a.request.car2 = msg1->longitude; 
+  a.request.car3 = msg1->altitude; 
+  a.request.obst1 = msg2->latitude;
+  a.request.obst2 = msg2->longitude;
+  a.request.obst3 = msg2->altitude;
 	  
   lla2enu::Distance s;
 	
