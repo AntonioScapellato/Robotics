@@ -4,7 +4,7 @@
 bool dis(service::ComputeDistance::Request  &req,
          service::ComputeDistance::Response &res)
 {
-  res.res.dist = sqrt(((req.car1 - req.obst1)*(req.car1 - req.obst1) )+ ((req.car2 - req.obst2)*(req.car2 - req.obst2) )+ ((req.car3 - req.obst3)* (req.car3 - req.obst3)))
+  res.res.dist = sqrt(((req.car1 - req.obst1)*(req.car1 - req.obst1) )+ ((req.car2 - req.obst2)*(req.car2 - req.obst2) )+ ((req.car3 - req.obst3)* (req.car3 - req.obst3)));
    return true;
 }
 
