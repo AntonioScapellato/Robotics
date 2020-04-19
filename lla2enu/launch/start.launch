@@ -5,9 +5,9 @@
         <param name="zeroLongitude" value="9.2947495255" />
 	<param name="zeroAltitude" value="231.506675163" />
 	
-	<param name="originPointLatitude" value="0" />
-	<param name="originPointLongitude" value="0" />
-	<param name="originPOintAltitude" value="0" />
+	<param name="originPointLatitude" value="45.23063819" />
+	<param name="originPointLongitude" value="9.28168510629" />
+	<param name="originPOintAltitude" value="230.240574744" />
 	
 		<param name="threshold1" value="1" />
 
@@ -17,18 +17,20 @@
 	
 	
   <!-- NODES -->
-	<!-- run node with gps of car-->
-	<group ns="subCar">
+	<!-- run node with gps of car
+
+<group ns="subCar">
     <node pkg="lla2enu" name="sub" type="sub"/>
   </group>
-	<!-- run node with gps of obstacle-->
 	<group ns="subObst">
     <node pkg="lla2enu" name="sub" type="sub"/>
 		<remap from="/swiftnav/front/" to="/swiftnav/obs"/>
   </group>
+	-->
+	    <node pkg="lla2enu" name="sub" type="sub"/>
+    <node pkg="lla2enu" name="sub" type="sub"/>
+
 	
-	
-	<node pkg="lla2enu" name="n2" type="pub"/>
 	
 
   </node>
