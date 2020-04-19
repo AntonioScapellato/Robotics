@@ -17,7 +17,17 @@
 	
 	
   <!-- NODES -->
-  <node pkg="lla2enu" name="n1" type="sub"/>
+	<!-- run node with gps of car-->
+	<group ns="subCar">
+    <node pkg="lla2enu" name="sub" type="sub"/>
+  </group>
+	<!-- run node with gps of obstacle-->
+	<group ns="subObst">
+    <node pkg="lla2enu" name="sub" type="sub"/>
+		<remap from="carGps" to="obstGps"/>
+  </group>
+	
+	
 	<node pkg="lla2enu" name="n2" type="pub"/>
 	
 
