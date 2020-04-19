@@ -1,6 +1,7 @@
 STO USANDO QUESTA CARTELLA COME PACKAGE PRINCIPALE
 
 dobbiamo cambiare il tipo dei msg?
+dobbiamo prima pubblicare tf e odomy e poi fare il server?
 
 
 IDEA SULLA STRUTTURA GENERALE:
