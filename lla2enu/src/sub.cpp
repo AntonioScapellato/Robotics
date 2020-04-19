@@ -96,7 +96,7 @@ void chatterCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
 }
 
 
-void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_msgs::Vector3StampedConstPtr& msg2)
+void callback(const sensor_msgs::NavSatFix::ConstPtr& msg1, const sensor_msgs::NavSatFix::ConstPtr& msg2)
 {
   ROS_INFO ("Received two messages: (%f,%f,%f) and (%f,%f,%f)", msg1->vector.x,msg1->vector.y,msg1->vector.z, msg2->vector.x, msg2->vector.y, msg2->vector.z);
 	
@@ -144,7 +144,8 @@ void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_
 	  
     // PUBLISHING TF CAR 
     // x,y, theta (??)
-    ros::NodeHandle n; 
+    //ros::NodeHandle n; 
+	  
     tf::TransformBroadcaster br;
     tf::Transform transform;
     transform.setOrigin( tf::Vector3(msg1->x, msg1->y, 0) );
@@ -179,10 +180,10 @@ int main(int argc, char **argv){
 	ros::NodeHandle n;
 
 	// RECEIVE THE CAR POSITION
-	message_filters::Subscriber<geometry_msgs::Vector3Stamped> sub1(n, "car", 1);
+	message_filters::Subscriber<sensor_msgs::NavSatFix> sub1(n, "car", 1);
 	//RECEIVE THE OBSTACLE POSITION
-	message_filters::Subscriber<geometry_msgs::Vector3Stamped> sub2(n, "obstacle", 1);
-	message_filters::TimeSynchronizer<geometry_msgs::Vector3Stamped, geometry_msgs::Vector3Stamped> sync(sub1, sub2, 10);
+	message_filters::Subscriber<sensor_msgs::NavSatFix> sub2(n, "obstacle", 1);
+	message_filters::TimeSynchronizer<sensor_msgs::NavSatFix, sensor_msgs::NavSatFix> sync(sub1, sub2, 10);
 	//BINDING THE TWO VALUES OF THE DIFFERENT TOPICS
 	sync.registerCallback(boost::bind(&callback, _1, _2));
  	ros::spin();
