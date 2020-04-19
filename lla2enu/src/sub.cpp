@@ -5,8 +5,9 @@
 #include "geometry_msgs/Vector3Stamped.h"
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
-
+#include "lla2enu/ComputeDistance.h"
 #include "lla2enu/Distance.h"
+
 		
 
 void chatterCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
@@ -103,36 +104,59 @@ void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_
 	//geometry_msgs::Vector3Stamped position_car;
 	//position_car = chatterCallback(msg1);
 	
+	//CONVERTING THE POSITIONS 
 	chatterCallback(msg1);
 	chatterCallback(msg2);
+ // DISTANCE CALCULATION AND PUBLISHING 
+  
+  ros::NodeHandle n;
+  ros::ServiceClient client = n.serviceClient<service::ComputeDistance>("compute_distance");
+  ros::Publisher distance_pub = n.advertise<ll2enu::Distance>("distance", 1000);
+  ros::Rate loop_rate(10);
+  service::ComputeDistance a;
 	
+  //SENDING PARAMETERS TO CALCULATE
+  a.request.car1; 
+  a.request.car2;
+  a.request.car3;
+  a.request.obst1
+  a.request.obst2
+  a.request.obst3
+	  
+  lla2enu::Distance s;
 	
-	//CONVERTING THE OBSTACLE POSITION 
-	//geometry_msgs::Vector3Stamped position_obstacle;
-	//position_obstacle = chatterCallback(msg2);
-	//
-	// DISTANCE 
-	
-	
-	/*
-	// la variabile deve essere del tipo custom message creato: distance
-	custom_messages::distance dist;
-	
-	//ATTENZIONE: controllare num. parentesi, ne ho aggiunta una
-	dist = sqrt(((position_car.x - position_obstacle.x)*(position_car.x - position_obstable.x))+((position_car.y - position_obstacle.y)*(position_car.y - position_obstable.y))+((position_car.z - position_obstacle.z)*(position_car.z - position_obstable.z)));
-	*/
-	
-	//CONTROLLO CRASH,    ATTENZIONE: SCRIVERE CODICE QUANDO UGUALE A 1M O 5M)
-	// leggo i parametri par1= 1m e par2= 5m 
-	
-	//ilflag è di tipo custom message: 1=sicuro, 0= non sicuro, -1= cash
-	
-		
-
-	
-	
-	// SERVICE CON CUSTOM MESSAGE 
-	//STATUS --> ON CLIENT
+  float par1;
+  float par2;
+  
+  if (client.call(a))
+  {
+    n.getParam("/threshold1", par1);
+    n.getParam("/threshold2", par2);
+    
+    // RECEIVING THE DISTANCE
+    lla2enu::distance dis= a.response.dist;
+	  
+    //STATUS ELABORATION
+    //-1 = cash, 0= rschio, 1= sicuro
+    if (s.dis> par2)
+    {s.stato=1;
+    }else if (s.dis> par1 && s.dis< par2)
+    {s.stato=0;
+    }else if (s.dis< par1)
+    {s.stato=-1;
+    }
+   // while (ros::ok()){
+    // PUBLISHING THE CUSTOM MESSAGE
+    distance_pub.publish(s);
+    ros::spinOnce();
+    loop_rate.sleep();
+	//}
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service compute_distance");
+    //return 1;
+  }
 
 }
 
@@ -154,8 +178,8 @@ int main(int argc, char **argv){
 	//RECEIVE THE OBSTACLE POSITION
 	message_filters::Subscriber<geometry_msgs::Vector3Stamped> sub2(n, "obstacle", 1);
 	message_filters::TimeSynchronizer<geometry_msgs::Vector3Stamped, geometry_msgs::Vector3Stamped> sync(sub1, sub2, 10);
+	//BINDING THE TWO VALUES OF THE DIFFERENT TOPICS
 	sync.registerCallback(boost::bind(&callback, _1, _2));
-	
  	ros::spin();
  	return 0;
 
