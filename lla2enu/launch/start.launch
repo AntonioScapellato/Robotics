@@ -5,10 +5,11 @@
         <param name="zeroLongitude" value="9.2947495255" />
 	<param name="zeroAltitude" value="231.506675163" />
 	
+	<!--
 	<param name="originPointLatitude" value="45.23063819" />
 	<param name="originPointLongitude" value="9.28168510629" />
 	<param name="originPOintAltitude" value="230.240574744" />
-	
+	-->
 		<param name="threshold1" value="1" />
 
 		<param name="threshold2" value="5" />
