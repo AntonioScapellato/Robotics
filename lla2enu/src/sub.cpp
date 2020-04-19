@@ -141,12 +141,13 @@ void callback(const geometry_msgs::Vector3StampedConstPtr& msg1, const geometry_
     }else if (s.dis< par1)
     {s.stato=-1;
     }
-   // while (ros::ok()){
+	  
+    // PUBLISHING TF
+    -->
+    
     // PUBLISHING THE CUSTOM MESSAGE
     distance_pub.publish(s);
-    ros::spinOnce();
     loop_rate.sleep();
-	//}
   }
   else
   {
