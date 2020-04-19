@@ -1,0 +1,32 @@
+
+<launch>
+	<!-- IMPOSTARE VALORI INIZIALI -->
+	<param name="zeroLatitude" value="45.6311926152" />
+        <param name="zeroLongitude" value="9.2947495255" />
+	<param name="zeroAltitude" value="231.506675163" />
+	
+	<param name="originPointLatitude" value="0" />
+	<param name="originPointLongitude" value="0" />
+	<param name="originPOintAltitude" value="0" />
+	
+		<param name="threshold1" value="1" />
+
+		<param name="threshold2" value="5" />
+
+
+	
+	
+  <!-- NODES -->
+  <node pkg="lla2enu" name="n1" type="sub"/>
+	<node pkg="lla2enu" name="n2" type="pub"/>
+	
+
+  </node>
+
+</launch>
+
+<launch>
+
+
+
+</launch>

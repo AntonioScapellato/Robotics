@@ -1,0 +1,10 @@
+float64 car1
+float64 car2
+float64 car3
+
+float64 obst1
+float64 obst2
+float64 obst3
+
+---
+float64 dist
