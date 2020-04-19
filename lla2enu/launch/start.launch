@@ -24,7 +24,7 @@
 	<!-- run node with gps of obstacle-->
 	<group ns="subObst">
     <node pkg="lla2enu" name="sub" type="sub"/>
-		<remap from="carGps" to="obstGps"/>
+		<remap from="/swiftnav/front/" to="/swiftnav/obs"/>
   </group>
 	
 	
