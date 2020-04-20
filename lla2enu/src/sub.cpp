@@ -123,36 +123,57 @@ void callback(const sensor_msgs::NavSatFix::ConstPtr& msg1, const sensor_msgs::N
 	
   float par1;
   float par2;
+float startLat;
+float startLong;
+float startAlt;
+	
+	
   
   if (client.call(a))
   {
+	n.getParam("/zeroLatitude", startLat);  
+	n.getParam("/zeroLongitude", startLong);
+	n.getParam("/zeroAltitude", startAlt);
+	  
     n.getParam("/threshold1", par1);
     n.getParam("/threshold2", par2);
+	
+	  std::stringstream s1;
+		s1 << "Crash";
+	  
+	 std::stringstream s2;
+		s2 << "Unsafe";
+	  
+	std::stringstream s3;
+		s3 << "Safe";  
     
     // RECEIVING THE DISTANCE
     lla2enu::distance dis= a.response.dist;
 	  
     //STATUS ELABORATION
-    //-1 = cash, 0= rschio, 1= sicuro
+    
     if (s.dis> par2)
-    {s.stato=1;
+    {
+	s.stato.data = s1.str();
     }else if (s.dis> par1 && s.dis< par2)
-    {s.stato=0;
+    {
+	s.stato.data = s2.str();
     }else if (s.dis< par1)
-    {s.stato=-1;
+    {
+	s.stato.data = s3.str();
     }
 	  
     // PUBLISHING TF CAR 
-    // x,y, theta (??)
+    
     //ros::NodeHandle n; 
 	  
     tf::TransformBroadcaster br;
     tf::Transform transform;
-    transform.setOrigin( tf::Vector3(msg1->x, msg1->y, 0) );
+    transform.setOrigin( tf::Vector3(startLat, startLong, startAlt) );
     tf::Quaternion q;
-    q.setRPY(0, 0, msg1->theta); 
+    q.setRPY(0, 0, 0); 
     transform.setRotation(q);
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "/Odom"));
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "car"));
 
     // PUBLISHING THE CUSTOM MESSAGE
     distance_pub.publish(s);
