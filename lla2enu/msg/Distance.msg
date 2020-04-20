@@ -1,3 +1,3 @@
 float64 distance
 
-int64 status
+std_msgs/String status
