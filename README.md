@@ -1,6 +1,9 @@
 # Robotics
 
-TODO: SUB/CLIENT --> SERVER
+TODO: 
+- Publish Odom 
+- Policy
+- Testing
 
 
 
