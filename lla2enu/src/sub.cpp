@@ -7,7 +7,7 @@
 #include <message_filters/time_synchronizer.h>
 #include "lla2enu/ComputeDistance.h"
 #include "lla2enu/Distance.h"
-
+// AGGIUNGERE LIBRERIA 
 		
 
 void chatterCallback(const sensor_msgs::NavSatFix::ConstPtr& msg){
@@ -169,11 +169,20 @@ float startAlt;
 	  
     tf::TransformBroadcaster br;
     tf::Transform transform;
-    transform.setOrigin( tf::Vector3(startLat, startLong, startAlt) );
+    transform.setOrigin(tf::Vector3(msg1->latitude, msg1->longitude, msg1->altitude));
     tf::Quaternion q;
     q.setRPY(0, 0, 0); 
     transform.setRotation(q);
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "car"));
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "cartf"));
+	  
+    tf::TransformBroadcaster br2;
+    tf::Transform transform2;
+    transform2.setOrigin(tf::Vector3(msg2->latitude, msg2->longitude, msg2->altitude));
+    tf::Quaternion q2;
+    q2.setRPY(0, 0, 0); 
+    transform2.setRotation(q2);
+    br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "obstacletf"));
+
 
     // PUBLISHING THE CUSTOM MESSAGE
     distance_pub.publish(s);
