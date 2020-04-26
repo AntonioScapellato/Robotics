@@ -182,6 +182,34 @@ float startAlt;
     q2.setRPY(0, 0, 0); 
     transform2.setRotation(q2);
     br2.sendTransform(tf::StampedTransform(transform2, ros::Time::now(), "map", "obstacletf"));
+	  
+  //PUBLISHING ODOMETRY MESSAGE CAR
+	  ros::Publisher odom_pubCar = n.advertise<nav_msgs::Odometry>("odomCar", 50);
+	  
+	nav_msgs::Odometry odomCar;
+	odomCar.header.frame_id = "odomCar";
+	odomCar.child_frame_id = "base_link";
+	  
+	  odomCar.pose.pose.position.x = msg1->latitude;
+      odomCar.pose.pose.position.y = msg1->longitude;
+       odomCar.pose.pose.position.z = msg1->altitude;
+       odomCar.pose.pose.orientation = q;
+	  
+	  odom_pub.publish(odomCar);
+	  
+//PUBLISHING ODOMETRY MESSAGE OBSTACLE
+	   ros::Publisher odom_pubObst = n.advertise<nav_msgs::Odometry>("odomObst", 50);
+	  
+	nav_msgs::Odometry odomCar;
+	odomObst.header.frame_id = "odomObst";
+	odomObst.child_frame_id = "base_link";
+	  
+	  odomObst.pose.pose.position.x = msg1->latitude;
+      odomObst.pose.pose.position.y = msg1->longitude;
+       odomObst.pose.pose.position.z = msg1->altitude;
+       odomObst.pose.pose.orientation = q;
+	  
+	  odom_pubObst.publish(odomObst);
 
 
     // PUBLISHING THE CUSTOM MESSAGE
