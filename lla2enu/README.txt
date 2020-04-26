@@ -1,5 +1,10 @@
 STO USANDO QUESTA CARTELLA COME PACKAGE PRINCIPALE
 
+
+vedere a cosa corrisonde in odometry "base_link"
+
+
+
 dobbiamo cambiare il tipo dei msg?
 dobbiamo prima pubblicare tf e odomy e poi fare il server?
 
