@@ -241,7 +241,14 @@ int main(int argc, char **argv){
 	message_filters::Subscriber<sensor_msgs::NavSatFix> sub1(n, "car", 1);
 	//RECEIVE THE OBSTACLE POSITION
 	message_filters::Subscriber<sensor_msgs::NavSatFix> sub2(n, "obstacle", 1);
-	message_filters::TimeSynchronizer<sensor_msgs::NavSatFix, sensor_msgs::NavSatFix> sync(sub1, sub2, 10);
+	
+	typedef message_filters::sync_policies::ExactTime<sensor_msgs::NavSatFix, sensor_msgs::NavSatFix> MySyncPolicy;
+	
+	
+	//senza policy: message_filters::TimeSynchronizer<sensor_msgs::NavSatFix, sensor_msgs::NavSatFix> sync(sub1, sub2, 10);
+	message_filters::Synchronizer<MySyncPolicy> sync(MySyncPolicy(10), sub1, sub2);
+	
+	
 	//BINDING THE TWO VALUES OF THE DIFFERENT TOPICS
 	sync.registerCallback(boost::bind(&callback, _1, _2));
  	ros::spin();
