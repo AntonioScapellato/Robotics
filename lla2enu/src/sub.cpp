@@ -7,6 +7,8 @@
 #include <message_filters/time_synchronizer.h>
 #include "lla2enu/ComputeDistance.h"
 #include "lla2enu/Distance.h"
+#include <message_filters/sync_policies/exact_time.h>
+#include <message_filters/sync_policies/approximate_time.h>
 // AGGIUNGERE LIBRERIA 
 		
 
